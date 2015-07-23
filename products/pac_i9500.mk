@@ -1,8 +1,5 @@
 # Check for target product
-ifeq (pac_ls990,$(TARGET_PRODUCT))
-
-# Include Device Config
-PRODUCT_NAME := pac_ls990
+ifeq (pac_i9500,$(TARGET_PRODUCT))
 
 # Bootanimation
 PAC_BOOTANIMATION_NAME := 1080
@@ -11,6 +8,6 @@ PAC_BOOTANIMATION_NAME := 1080
 include vendor/pac/config/pac_common.mk
 
 # Inherit CM device configuration
-$(call inherit-product, device/lge/ls990/cm.mk)
+$(call inherit-product, device/samsung/i9500/cm.mk)
 
 endif

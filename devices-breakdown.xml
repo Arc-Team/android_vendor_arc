@@ -29,7 +29,6 @@
     </vendor>
     <vendor Name="LG">
         <device FullName="G-Pad" CodeName="v500"/>
-        <device FullName="G3 (Sprint)" CodeName="ls990" />
         <device FullName="Nexus 5" CodeName="hammerhead"/>
         <device FullName="Optimus G (International)" CodeName="e975"/>
         <device FullName="Optimus G Pro" CodeName="e980"/>
@@ -86,6 +85,7 @@
         <device FullName="Xperia Tablet Z LTE" CodeName="pollux"/>
         <device FullName="Xperia Z1" CodeName="honami"/>
         <device FullName="Xperia Z1 Compact" CodeName="amami"/>
+        <device FullName="Xperia Z2" CodeName="sirius"/>
     </vendor>
     <vendor Name="Sony Ericsson">
         <device FullName="Live With Walkman" CodeName="coconut"/>
