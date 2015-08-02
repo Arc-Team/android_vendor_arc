@@ -149,7 +149,6 @@ opt_sync=0
 opt_twrp=0
 opt_log=0
 
-
 while getopts "a:c:de:fj:kilo:prs:tw:" opt; do
     case "$opt" in
     a) opt_adb=1 ;;
