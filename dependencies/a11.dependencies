@@ -1,0 +1,23 @@
+[
+    {
+        "remote":      "github",
+        "account":     "Arc-Team",
+        "repository":  "android_device_htc_a11",
+        "target_path": "device/htc/a11",
+        "revision":    "cm-12.1-repwn"
+    },
+    {
+        "remote":      "github",
+        "account":     "Arc-Team",
+        "repository":  "android_kernel_htc_a11",
+        "target_path": "kernel/htc/a11",
+        "revision":    "cm-12.1-repwn"
+    },
+    {
+        "remote":      "github",
+        "account":     "CyanogenMod",
+        "repository":  "android_hardware_qcom_fm",
+        "target_path": "hardware/qcom/fm",
+        "revision":    "cm-12.1"
+    }
+]
