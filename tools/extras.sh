@@ -169,11 +169,7 @@ case $device in
         PATCH=tenderloin_packagemanager-allow-install-to-complete
         FOLDER=frameworks/base
         patch_it #add this function call for each patch
-        # tenderloin_ART-Hack-to-get-working-on-TP
-        PATCH=tenderloin_ART-Hack-to-get-working-on-TP
-        FOLDER=art
-        patch_it #add this function call for each patch
-        #sepolicy: add a domain for lvm
+      #sepolicy: add a domain for lvm
         cm_cherries+=(82660)
         #art: allow devices to opt out of GAP check
         cm_cherries+=(82661)
@@ -251,7 +247,7 @@ if [ "$pac_gerrit" != "" ]; then
     echo ""
     echo -e "${bldblu}Now merging the specified PAC extras${rst}"
     echo ""
-    ./build/tools/repopick.py -is extras$opt_cherries$opt_topics$opt_queries
+    ./build/tools/repopick.py -ifs extras$opt_cherries$opt_topics$opt_queries
 fi
 
 #from CM gerrit
@@ -277,5 +273,5 @@ if [ "$cm_gerrit" != "" ]; then
     echo ""
     echo -e "${bldblu}Now merging the specified CM extras${rst}"
     echo ""
-    ./build/tools/repopick.py -is extras$opt_cherries$opt_topics$opt_queries -g "http://review.cyanogenmod.org"
+    ./build/tools/repopick.py -ifs extras$opt_cherries$opt_topics$opt_queries -g "http://review.cyanogenmod.org"
 fi

@@ -35,6 +35,7 @@ add_lunch_combo pac_v500-userdebug
 add_lunch_combo pac_condor-userbebug
 add_lunch_combo pac_falcon-userdebug
 add_lunch_combo pac_ghost-userdebug
+add_lunch_combo pac_lux-userdebug
 add_lunch_combo pac_obake-userdebug
 add_lunch_combo pac_osprey-userdebug
 add_lunch_combo pac_otus-userdebug
@@ -76,6 +77,7 @@ add_lunch_combo pac_serranodsdd-userdebug
 add_lunch_combo pac_serranoltexx-userdebug
 add_lunch_combo pac_trltespr-userdebug
 add_lunch_combo pac_trltetmo-userdebug
+add_lunch_combo pac_trltexx-userdebug
 # Sony
 add_lunch_combo pac_amami-userdebug
 add_lunch_combo pac_castor-userdebug

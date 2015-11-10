@@ -26,6 +26,7 @@
   <device name="d2tmo"/>
   <device name="d2vzw"/>
   <device name="d855"/>
+  <device name="e975"/>
   <device name="evita"/>
   <device name="falcon"/>
   <device name="flo"/>
@@ -46,6 +47,7 @@
   <device name="jfltevzw"/>
   <device name="jfltexx"/>
   <device name="lettuce"/>
+  <device name="lux"/>
   <device name="m7"/>
   <device name="m7spr"/>
   <device name="m7vzw"/>
@@ -66,5 +68,6 @@
   <device name="tomato"/>
   <device name="trltespr"/>
   <device name="trltetmo"/>
+  <device name="trltexx"/>
   <!-- <device name="v500"/> -->
 </manifest>
