@@ -7,6 +7,7 @@
         <device FullName="Nexus 7 (2013)" CodeName="flo"/>
         <device FullName="Nexus 7 LTE (2013)" CodeName="deb"/>
         <device FullName="Nexus Player" CodeName="fugu"/>
+        <device FullName="ZenFone 2" CodeName="Z00A"/>
     </vendor>
     <vendor Name="Google">
         <device FullName="Android One 4GB" CodeName="sprout4"/>
@@ -29,6 +30,7 @@
     </vendor>
     <vendor Name="Huawei">
         <device FullName="Ascend Mate 2" CodeName="mt2"/>
+        <device FullName="Nexus 6P" CodeName="angler"/>
     </vendor>
     <vendor Name="LG">
         <device FullName="G-Pad" CodeName="v500"/>
