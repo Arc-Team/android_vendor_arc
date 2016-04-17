@@ -56,6 +56,7 @@
   <device name="mt2"/>
   <!-- <device name="n5110"/> -->
   <device name="obake"/>
+  <device name="onyx"/>
   <device name="osprey"/>
   <device name="otus"/>
   <device name="shamu"/>
@@ -68,6 +69,7 @@
   <device name="trltespr"/>
   <device name="trltetmo"/>
   <device name="trltexx"/>
+  <device name="Z008"/>
   <device name="Z00A"/>
   <!-- <device name="v500"/> -->
 </manifest>
