@@ -1,0 +1,14 @@
+[
+    {
+        "remote":      "arc",
+        "repository":  "android_device_lge_d851",
+        "target_path": "device/lge/d851",
+        "revision":    "cm-13.0"
+    },
+    {
+        "remote":      "arc",
+        "repository":  "android_kernel_lge_g3",
+        "target_path": "kernel/lge/g3",
+        "revision":    "cm-13.0"
+    }
+]
