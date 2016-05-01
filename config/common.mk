@@ -162,6 +162,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Exchange2
 
+# Extra packages
+PRODUCT_PACKAGES += \
+    KernelAdiutor
+
 # Extra tools in CM
 PRODUCT_PACKAGES += \
     libsepol \
