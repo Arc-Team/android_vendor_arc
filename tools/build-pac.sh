@@ -44,6 +44,13 @@ usage() {
     echo -e "        1 - Normal sync"
     echo -e "        2 - Make snapshot"
     echo -e "        3 - Restore previous snapshot, then snapshot sync"
+    echo -e "    -u  Upload rom to any server"
+    echo -e "        You need the server file"
+    echo -e "            Step 1 - Create 'Server-device' file in your $HOME/ DIR"
+    echo -e "            Step 2 - Fill of this way: username::password::hostserver::serverlocationfiles"
+    echo -e "                     example: login::password::basketbuild.com::/device/folder"
+    echo -e "            Alternative: Use this command to create the text file"
+    echo -e "                     echo 'login::password::basketbuild.com::/device/folder' > $HOME/Server-$device"
     echo -e "    -w#  Log file options:"
     echo -e "        1 - Send warnings and errors to a log file"
     echo -e "        2 - Send all output to a log file"
@@ -74,15 +81,17 @@ fi
 
 
 # Maintenance logic
-if [ -s ~/PACname ]; then
-    export PAC_MAINTENANCE=$(cat ~/PACname)
+if [ -s "$HOME"/PACname ]; then
+    export PAC_MAINTENANCE=$(cat "$HOME"/PACname)
 else
     export PAC_MAINTENANCE="$PAC_VERSION_MAINTENANCE"
 fi
 if [ -z "$PAC_VERSION_MINOR" ]; then
     export PAC_VERSION="$PAC_VERSION_MAJOR $PAC_MAINTENANCE"
+    export VO="${bldmag}$PAC_VERSION_MAJOR ${bldred}$PAC_MAINTENANCE${rst}"
 else
     export PAC_VERSION="$PAC_VERSION_MAJOR $PAC_VERSION_MINOR $PAC_MAINTENANCE"
+    export VO="${bldmag}$PAC_VERSION_MAJOR ${bldcya}$PAC_VERSION_MINOR ${bldred}$PAC_MAINTENANCE${rst}"
 fi
 
 
@@ -146,9 +155,10 @@ opt_lrd=0
 opt_only=0
 opt_reset=0
 opt_sync=0
+opt_upload=0
 opt_log=0
 
-while getopts "ac:de:fij:klo:rs:w:" opt; do
+while getopts "ac:de:fij:klo:rs:uw:" opt; do
     case "$opt" in
     a) opt_adb=1 ;;
     c) opt_clean="$OPTARG" ;;
@@ -162,6 +172,7 @@ while getopts "ac:de:fij:klo:rs:w:" opt; do
     o) opt_only="$OPTARG" ;;
     r) opt_reset=1 ;;
     s) opt_sync="$OPTARG" ;;
+    u) opt_upload=1 ;;
     w) opt_log="$OPTARG" ;;
     *) usage
     esac
@@ -172,6 +183,24 @@ if [ "$#" -ne 1 ]; then
     usage
 fi
 device="$1"
+
+
+# Check server file for uploading
+if [ "$opt_upload" -ne 0 ]; then
+    if [ ! -f "$HOME/Server-$device" ]; then
+        echo -e "${bldcya}You are using the option to automatically upload the files after build${rst}"
+        echo -e "${bldcya}but the server configuration file is not found, please add it${rst}"
+        echo ""
+        echo -e "${bldcya}    Step 1 - Create 'Server-device' file in your $HOME/ DIR${rst}"
+        echo -e "${bldcya}    Step 2 - Fill of this way: username::password::hostserver::serverlocationfiles${rst}"
+        echo -e "${bldcya}             example: login::password::basketbuild.com::/device/folder${rst}"
+        echo ""
+        echo -e "${bldcya}    Alternative: Use this command to create the text file${rst}"
+        echo -e "${bldcya}             echo 'login::password::basketbuild.com::/device/folder' > $HOME/Server-$device${rst}"
+        echo ""
+        exit 1
+    fi
+fi
 
 
 # Ccache options
@@ -203,10 +232,11 @@ fi
 export TARGET_IGNORE_ERRORS
 
 if [ "$TARGET_IGNORE_ERRORS" == "true" ]; then
-   opt_clean=1
-   echo -e "${bldred}Last build ignored errors. Cleaning Out${rst}"
-   unset TARGET_IGNORE_ERRORS
-   echo -e "false" > .ignore_err
+    opt_clean=1
+    echo -e "${bldred}Last build ignored errors. Cleaning Out${rst}"
+    echo ""
+    unset TARGET_IGNORE_ERRORS
+    echo -e "false" > .ignore_err
 fi
 
 
@@ -279,26 +309,26 @@ elif [ "$opt_sync" -eq 3 ]; then
     cp snapshot-"$device".xml .repo/manifests/
 
     # Prevent duplicate projects
-    cd .repo/local_manifests
+    cd .repo/local_manifests || exit
     for file in *.xml; do
         mv "$file" "$(echo $file | sed 's/\(.*\.\)xml/\1xmlback/')"
     done
 
     # Start snapshot file
-    cd "$DIR"
+    cd "$DIR" || exit
     repo init -m snapshot-"$device".xml
     echo -e "${bldcya}Fetching snapshot sources${rst}"
     echo ""
     repo sync -qdj"$opt_jobs"
 
     # Prevent duplicate backups
-    cd .repo/local_manifests
+    cd .repo/local_manifests || exit
     for file in *.xmlback; do
         mv "$file" "$(echo $file | sed 's/\(.*\.\)xmlback/\1xml/')"
     done
 
     # Remove snapshot file
-    cd "$DIR"
+    cd "$DIR" || exit
     rm -f .repo/manifests/snapshot-"$device".xml
     repo init
 fi
@@ -365,26 +395,56 @@ fi
 
 
 # Start compilation
-unset PAC_MAKE
 if [ "$opt_only" -eq 1 ]; then
-    echo -e "${bldcya}Starting compilation: ${bldgrn}Building Boot Image only${rst}"
+    echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}Boot Image only${rst}"
     echo ""
-    make -j$opt_jobs$opt_v$opt_i bootzip
+    make -j"$opt_jobs$opt_v$opt_i" bootzip
 elif [ "$opt_only" -eq 2 ]; then
-    echo -e "${bldcya}Starting compilation: ${bldgrn}Building Recovery Image only${rst}"
+    echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}Recovery Image only${rst}"
     echo ""
-    export PAC_MAKE=recoveryimage
-    make -j$opt_jobs$opt_v$opt_i recoveryimage
+    make -j"$opt_jobs$opt_v$opt_i" recoveryimage
 else
-    if [ -z "$PAC_VERSION_MINOR" ]; then
-        echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}PAC-ROM ${bldmag}$PAC_VERSION_MAJOR ${bldred}$PAC_MAINTENANCE${rst}"
-    else
-        echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}PAC-ROM ${bldmag}$PAC_VERSION_MAJOR ${bldcya}$PAC_VERSION_MINOR ${bldred}$PAC_MAINTENANCE${rst}"
-    fi
+    echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}PAC-ROM $VO${rst}"
     echo ""
-    make -j$opt_jobs$opt_v$opt_i bacon
+    make -j"$opt_jobs$opt_v$opt_i" bacon
 fi
 
 
 # Cleanup unused built
 rm -f "$OUTDIR"/target/product/"$device"/pac_*-ota*.zip
+
+
+# Upload
+if [ "$opt_upload" -ne 0 ]; then
+    finally="$OUTDIR/target/product/$device/"
+    md5name=$(basename "${finally}"pac*.md5sum)
+    zipname=$(basename "${finally}"pac*.zip)
+
+    echo ""
+    if [ -s "$HOME/Server-$device" ]; then
+        if [ -f "$finally$md5name" ] && [ -f "$finally$zipname" ]; then
+            server="$HOME/Server-$device"
+
+            suser=$(awk -F'::' '{print $1}' "$server")
+            spass=$(awk -F'::' '{print $2}' "$server")
+            shost=$(awk -F'::' '{print $3}' "$server")
+            spath=$(awk -F'::' '{print $4}' "$server")
+
+            echo -e "${bldcya}Uploading to${bldmag} ${shost} ${bldcya}as${bldmag} ${suser} ${bldcya}at${bldmag} ${spath}${rst}"
+
+            echo -e "${bldgrn}Uploading $md5name${rst}"
+            curl -T "${finally}${md5name}" ftp://"${suser}:${spass}@${shost}:${spath}/${md5name}"
+
+            echo -e "${bldgrn}Uploading $zipname${rst}"
+            curl -T "${finally}${zipname}" ftp://"${suser}:${spass}@${shost}:${spath}/${zipname}"
+
+            echo -e "${bldgrn}Upload Successfull${rst}"
+        else
+            echo -e "${bldgrn}ERROR: The ROM file does not exist${rst}"
+        fi
+    else
+        echo -e "${bldgrn}The Server configuration file does not exist or it is empty${rst}"
+    fi
+fi
+
+echo ""
