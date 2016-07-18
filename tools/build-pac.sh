@@ -398,7 +398,7 @@ fi
 if [ "$opt_only" -eq 1 ]; then
     echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}Boot Image only${rst}"
     echo ""
-    make -j"$opt_jobs$opt_v$opt_i" bootzip
+    make -j"$opt_jobs$opt_v$opt_i" bootimage
 elif [ "$opt_only" -eq 2 ]; then
     echo -e "${bldcya}Starting compilation: ${bldgrn}Building ${bldylw}Recovery Image only${rst}"
     echo ""
