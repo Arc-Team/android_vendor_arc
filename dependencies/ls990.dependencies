@@ -1,8 +1,8 @@
 [
     {
         "remote":       "ss",
-        "repository":   "android_device_lge_vs985",
-        "target_path":  "device/lge/vs985",
+        "repository":   "android_device_lge_ls990",
+        "target_path":  "device/lge/ls990",
         "revision":     "pac-6.0"
     },
     {

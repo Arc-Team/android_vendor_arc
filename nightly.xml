@@ -47,6 +47,7 @@
   <device name="jfltevzw"/>
   <device name="jfltexx"/>
   <device name="lettuce"/>
+  <device name="ls990"/>
   <device name="lux"/>
   <device name="m7"/>
   <device name="m7spr"/>
@@ -54,6 +55,7 @@
   <device name="m8"/>
   <device name="mt2"/>
   <device name="obake"/>
+  <device name="oneplus3"/>
   <device name="onyx"/>
   <device name="osprey"/>
   <device name="otus"/>
