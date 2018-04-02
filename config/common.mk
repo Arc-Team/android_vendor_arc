@@ -125,9 +125,13 @@ PRODUCT_PACKAGES += \
     libprotobuf-cpp-full \
     librsjni
 
+# AudioFX
+ifneq ($(TARGET_DISABLE_AUDIOFX), true)
+PRODUCT_PACKAGES += AudioFX
+endif
+
 # Custom CM packages
 PRODUCT_PACKAGES += \
-    AudioFX \
     CMSettingsProvider \
     ExactCalculator \
     Jelly \
