@@ -95,6 +95,7 @@ endif
 # Needed for CONFIG_COMPAT_VDSO, safe to set for all arm64 builds
 ifeq ($(KERNEL_ARCH),arm64)
    KERNEL_CROSS_COMPILE += CROSS_COMPILE_ARM32="$(KERNEL_TOOLCHAIN_arm)/$(KERNEL_TOOLCHAIN_PREFIX_arm)"
+   KERNEL_CROSS_COMPILE += CROSS_COMPILE_COMPAT="$(KERNEL_TOOLCHAIN_arm)/$(KERNEL_TOOLCHAIN_PREFIX_arm)"
 endif
 
 # Clear this first to prevent accidental poisoning from env
@@ -152,4 +153,11 @@ OUT_DIR_PREFIX := $(shell echo $(OUT_DIR) | sed -e 's|/target/.*$$||g')
 KERNEL_BUILD_OUT_PREFIX :=
 ifeq ($(OUT_DIR_PREFIX),out)
 KERNEL_BUILD_OUT_PREFIX := $(BUILD_TOP)/
+endif
+
+ifneq ($(TARGET_KERNEL_BUILD_USER),)
+    KERNEL_MAKE_FLAGS += KBUILD_BUILD_USER=$(TARGET_KERNEL_BUILD_USER)
+endif
+ifneq ($(TARGET_KERNEL_BUILD_HOST),)
+    KERNEL_MAKE_FLAGS += KBUILD_BUILD_HOST=$(TARGET_KERNEL_BUILD_HOST)
 endif
